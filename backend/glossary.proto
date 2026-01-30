@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// Структура для вложенного объекта related_terms
+message TermRelation {
+  int32 term_id = 1;
+  string relationship = 2;
+}
+
+// Основная сущность Термина
+message Term {
+  int32 id = 1;
+  string keyword = 2;
+  string definition = 3;
+  string source = 4; // Если source null, будет пустая строка
+  repeated TermRelation related_terms = 5;
+}
+
+// --- Сообщения для запросов и ответов ---
+
+// Пустой запрос (аналог вызова функции без аргументов)
+message Empty {}
+
+message TermListResponse {
+  repeated Term terms = 1;
+}
+
+message GetTermRequest {
+  int32 id = 1;
+}
+
+message TermResponse {
+  Term term = 1;
+}
+
+// Набор методов 
+service GlossaryService {
+  // GET /api/terms
+  rpc GetTerms (Empty) returns (TermListResponse);
+  
+  // GET /api/terms/{id}
+  rpc GetTerm (GetTermRequest) returns (TermResponse);
+}

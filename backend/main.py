@@ -1,10 +1,9 @@
-import json
+
 from typing import List, Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
-DB_FILE = "glossary.json"
+from data_utils import load_data, save_data
 
 app = FastAPI(
     title="Accessibility Glossary API",
@@ -39,17 +38,6 @@ class TermBase(BaseModel):
 
 class Term(TermBase):
     id: int
-
-def load_data() -> List[dict]:
-    try:
-        with open(DB_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
-
-def save_data(data: List[dict]):
-    with open(DB_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
 
 @app.get("/api/terms", response_model=List[Term])
 def get_terms():

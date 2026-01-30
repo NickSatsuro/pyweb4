@@ -2,16 +2,26 @@ version: '3.8'
 
 services:
   api:
-    image: satsuro/glossary-backend:latest
-    container_name: glossary_backend
+    image: satsuro/glossary-grpc-backend:latest
+    container_name: glossary_rest
     ports:
       - "8000:8000"
     volumes:
       - ./backend/glossary.json:/app/glossary.json
     restart: always
 
+  grpc:
+    image: satsuro/glossary-grpc-backend:latest
+    container_name: glossary_grpc
+    command: python grpc_server.py
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./backend/glossary.json:/app/glossary.json
+    restart: always
+
   web:
-    image: satsuro/glossary-backend:latest
+    image: satsuro/glossary-grpc-frontend:latest
     container_name: glossary_frontend
     ports:
       - "3000:80"
