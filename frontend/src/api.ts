@@ -1,6 +1,6 @@
 import { type Term, type GraphData } from './types';
 
-const API_URL = 'http://83.166.254.54:8000/api';
+const API_URL = 'docker build --platform linux/amd64 -t satsuro/glossary-grpc-frontend:latest ./frontend/api';
 
 export const fetchTerms = async (): Promise<Term[]> => {
   const res = await fetch(`${API_URL}/terms`);

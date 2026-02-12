@@ -8,7 +8,10 @@ from data_utils import load_data, save_data
 app = FastAPI(
     title="Accessibility Glossary API",
     description="API для глоссария терминов по веб-доступности",
-    version="1.1.0"
+    version="1.1.0",
+    docs_url="/api/docs",          
+    openapi_url="/api/openapi.json"
+    
 )
 
 app.add_middleware(
